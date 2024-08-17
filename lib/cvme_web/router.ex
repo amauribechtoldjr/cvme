@@ -10,11 +10,15 @@ defmodule CvmeWeb.Router do
 
     get "/", WelcomeController, :index
 
+    # Users
     resources "/users", UsersController, only: [:create, :update, :delete, :show]
     get "/users/:id/experiences", UsersController, :experiences
+    post "/users/login", UsersController, :login
 
+    # Experiences
     resources "/experiences", ExperiencesController, only: [:create, :update, :delete]
   end
+
   # Enable LiveDashboard in development
   if Application.compile_env(:cvme, :dev_routes) do
     # If you want to use the LiveDashboard in production, you should put

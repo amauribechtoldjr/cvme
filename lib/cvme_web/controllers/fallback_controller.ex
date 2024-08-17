@@ -15,6 +15,13 @@ defmodule CvmeWeb.FallbackController do
     |> render(:error, status: :bad_request)
   end
 
+  def call(conn, {:error, :unauthorized}) do
+    conn
+    |> put_status(:unauthorized)
+    |> put_view(json: CvmeWeb.ErrorJSON)
+    |> render(:error, status: :unauthorized)
+  end
+
   def call(conn, {:error, changeset}) do
     conn
     |> put_status(:bad_request)

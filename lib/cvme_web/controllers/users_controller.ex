@@ -1,9 +1,9 @@
 defmodule CvmeWeb.UsersController do
   use CvmeWeb, :controller
 
+  alias CvmeWeb.Token
   alias Cvme.Users
   alias Users.User
-
   alias Cvme.Experiences
 
   action_fallback CvmeWeb.FallbackController
@@ -45,6 +45,16 @@ defmodule CvmeWeb.UsersController do
       conn
       |> put_status(:ok)
       |> render(:update, user: user)
+    end
+  end
+
+  def login(conn, params) do
+    with {:ok, user} <- Users.verify(params) do
+      token = Token.sign(user)
+
+      conn
+      |> put_status(:ok)
+      |> render(:login, token: token)
     end
   end
 end

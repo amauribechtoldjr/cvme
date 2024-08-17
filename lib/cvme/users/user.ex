@@ -10,7 +10,7 @@ defmodule Cvme.Users.User do
   @cast_params [:password, :email]
   @update_params [:email]
 
-  @derive {Jason.Encoder, only: [:id, :email]}
+  @derive {Jason.Encoder, only: [:id, :email, :password_hash]}
   schema "users" do
     field :password, :string, virtual: true
     field :password_hash, :string
