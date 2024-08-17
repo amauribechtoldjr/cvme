@@ -3,4 +3,5 @@ defmodule CvmeWeb.UsersJSON do
   def get(%{user: user}), do: %{data: user}
   def delete(%{user: user}), do: %{message: "User deleted with success.", data: user}
   def update(%{user: user}), do: %{message: "User updated with success.", data: user}
+  def user_experiences(%{experiences: experiences}), do: %{data: experiences}
 end

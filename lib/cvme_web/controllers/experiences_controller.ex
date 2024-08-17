@@ -14,13 +14,13 @@ defmodule CvmeWeb.ExperiencesController do
     end
   end
 
-  # def delete(conn, %{"id" => id}) do
-  #   with {:ok, %Experience{} = cr} <- Experiences.delete(id) do
-  #     conn
-  #     |> put_status(:ok)
-  #     |> render(:delete, cr: cr)
-  #   end
-  # end
+  def delete(conn, %{"id" => id}) do
+    with {:ok, %Experience{} = experience} <- Experiences.delete(id) do
+      conn
+      |> put_status(:ok)
+      |> render(:delete, experience: experience)
+    end
+  end
 
   # def show(conn, %{"id" => id}) do
   #   with {:ok, %Experience{} = cr} <- Experiences.get(id) do

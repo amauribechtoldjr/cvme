@@ -9,7 +9,7 @@ defmodule Cvme.Experiences.Experience do
   @cast_params [:company, :description, :start_date, :end_date, :user_id]
   @required_params [:company, :description, :start_date, :user_id]
 
-  @derive {Jason.Encoder, only: [:id, :user_id, :company, :description, :start_date, :end_date]}
+  @derive {Jason.Encoder, only: [:id,  :user_id, :company, :description, :start_date, :end_date]}
   schema "experiences" do
     field :company, :string
     field :description, :string
@@ -41,7 +41,7 @@ defmodule Cvme.Experiences.Experience do
     |> validate_date_range(end_date, :end_date)
   end
 
-  defp validate_dates(%Changeset{valid?: true, changes: %{start_date: start_date}} = changeset, %{end_date: end_date} = experience) do
+  defp validate_dates(%Changeset{valid?: true, changes: %{start_date: start_date}} = changeset, %{end_date: end_date} = _experience) do
     case end_date do
       nil -> changeset
               |> validate_date_range(start_date, :start_date)

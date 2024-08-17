@@ -11,6 +11,8 @@ defmodule CvmeWeb.Router do
     get "/", WelcomeController, :index
 
     resources "/users", UsersController, only: [:create, :update, :delete, :show]
+    get "/users/:id/experiences", UsersController, :experiences
+
     resources "/experiences", ExperiencesController, only: [:create, :update, :delete]
   end
   # Enable LiveDashboard in development

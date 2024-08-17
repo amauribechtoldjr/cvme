@@ -4,6 +4,9 @@ defmodule CvmeWeb.UsersController do
   alias Cvme.Users
   alias Users.User
 
+  alias Cvme.Experiences
+  alias Experiences.Experience
+
   action_fallback CvmeWeb.FallbackController
 
   def create(conn, params) do
@@ -20,6 +23,14 @@ defmodule CvmeWeb.UsersController do
       |> put_status(:ok)
       |> render(:delete, user: user)
     end
+  end
+
+  def experiences(conn, %{"id" => id}) do
+    experiences = Experiences.user_experiences(id)
+
+    conn
+    |> put_status(:ok)
+    |> render(:user_experiences, experiences: experiences)
   end
 
   def show(conn, %{"id" => id}) do
