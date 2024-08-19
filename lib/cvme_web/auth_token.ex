@@ -1,7 +1,6 @@
-defmodule CvmeWeb.Token do
+defmodule CvmeWeb.AuthToken do
   alias CvmeWeb.Endpoint
   alias Phoenix.Token
-  alias Users.User
 
   @sign_salt "cvme-xisdizko"
 
@@ -9,5 +8,5 @@ defmodule CvmeWeb.Token do
     Token.sign(Endpoint, @sign_salt, %{email: user.email})
   end
 
-  defp verify(token), do: Token.verify(Endpoint, @sign_salt, token)
+  def verify(token), do: Token.verify(Endpoint, @sign_salt, token)
 end

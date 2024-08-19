@@ -1,7 +1,7 @@
 defmodule CvmeWeb.UsersController do
   use CvmeWeb, :controller
 
-  alias CvmeWeb.Token
+  alias CvmeWeb.AuthToken
   alias Cvme.Users
   alias Users.User
   alias Cvme.Experiences
@@ -50,7 +50,7 @@ defmodule CvmeWeb.UsersController do
 
   def login(conn, params) do
     with {:ok, user} <- Users.verify(params) do
-      token = Token.sign(user)
+      token = AuthToken.sign(user)
 
       conn
       |> put_status(:ok)

@@ -13,7 +13,7 @@ defmodule Cvme.Users.Verify do
   defp verify_password(user, password) do
     case Argon2.verify_pass(password, user.password_hash) do
       true -> {:ok, user}
-      false -> {:error, :unauthorized}
+      false -> {:error, :unauthorized, message: "Invalid authentication data"}
     end
   end
 end

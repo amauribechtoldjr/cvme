@@ -15,7 +15,14 @@ defmodule CvmeWeb.ErrorJSON do
   def error(%{status: :unauthorized}) do
     %{
       status: :unauthorized,
-      message: "Email or password invalid"    }
+    }
+  end
+
+  def error(%{status: :unauthorized, message: message}) do
+    %{
+      status: :unauthorized,
+      message: message
+    }
   end
 
   def error(%{status: :bad_request}) do
