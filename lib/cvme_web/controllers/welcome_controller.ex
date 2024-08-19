@@ -5,7 +5,7 @@ defmodule CvmeWeb.WelcomeController do
     conn
     |> put_status(:ok)
     |> json(%{
-      message: "Welcome to CVME API. Version: #{Mix.Project.config()[:version]}",
+      message: "CVme API",
       status: :ok
     })
   end
