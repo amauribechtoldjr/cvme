@@ -4,14 +4,16 @@ defmodule CvmeWeb.UsersController do
   alias Cvme.Users
   alias Users.User
   alias Cvme.Experiences
+  alias CvmeWeb.Auth.Guardian
 
   action_fallback CvmeWeb.FallbackController
 
   def create(conn, params) do
-    with {:ok, %User{} = user} <- Users.create(params) do
+    with {:ok, %User{} = user} <- Users.create(params),
+         {:ok, token, _claims} <- Guardian.encode_and_sign(user) do
       conn
       |> put_status(:created)
-      |> render(:create, user: user)
+      |> render(:create, user: user, token: token)
     end
   end
 

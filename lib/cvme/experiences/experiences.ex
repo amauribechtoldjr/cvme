@@ -9,7 +9,6 @@ defmodule Cvme.Experiences.Experience do
   @cast_params [:company, :description, :start_date, :end_date, :user_id]
   @required_params [:company, :description, :start_date, :user_id]
 
-  @derive {Jason.Encoder, only: [:id,  :user_id, :company, :description, :start_date, :end_date]}
   schema "experiences" do
     field :company, :string
     field :description, :string

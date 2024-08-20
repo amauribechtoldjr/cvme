@@ -47,7 +47,8 @@ defmodule Cvme.MixProject do
       {:dns_cluster, "~> 0.1.1"},
       {:bandit, "~> 1.5"},
       {:argon2_elixir, "~> 4.0"},
-      {:ecto_commons, "~> 0.3.4"}
+      {:ecto_commons, "~> 0.3.4"},
+      {:guardian, "~> 2.3"}
     ]
   end
 
