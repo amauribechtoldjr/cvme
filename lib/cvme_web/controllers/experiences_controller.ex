@@ -22,14 +22,6 @@ defmodule CvmeWeb.ExperiencesController do
     end
   end
 
-  # def show(conn, %{"id" => id}) do
-  #   with {:ok, %Experience{} = cr} <- Experiences.get(id) do
-  #     conn
-  #     |> put_status(:ok)
-  #     |> render(:get, cr: cr)
-  #   end
-  # end
-
   def update(conn, params) do
     with {:ok, %Experience{} = experience} <- Experiences.update(params) do
       conn

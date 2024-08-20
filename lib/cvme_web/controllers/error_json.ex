@@ -29,10 +29,6 @@ defmodule CvmeWeb.ErrorJSON do
     %{status: :bad_request}
   end
 
-  def error(%{status: :bad_request}) do
-    %{status: :bad_request}
-  end
-
   def error(%{changeset: changeset}) do
     %{
       errors: Ecto.Changeset.traverse_errors(changeset, &translate_errors/1)

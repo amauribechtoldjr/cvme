@@ -1,4 +1,4 @@
-defmodule Cvme.Users.Verify do
+defmodule Cvme.Users.VerifyPwd do
   alias Cvme.Users
   alias Users.User
   alias Cvme.Repo
