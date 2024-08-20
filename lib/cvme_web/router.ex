@@ -1,5 +1,14 @@
 defmodule CvmeWeb.Router do
   use CvmeWeb, :router
+  use Plug.ErrorHandler
+
+  @impl Plug.ErrorHandler
+  def handle_errors(conn, _) do
+    conn
+    |> put_status(conn.status)
+    |> put_view(json: CvmeWeb.ErrorJSON)
+    |> render(:error, status: :bad_request)
+  end
 
   pipeline :api do
     plug :accepts, ["json"]
@@ -12,6 +21,7 @@ defmodule CvmeWeb.Router do
 
     # Users
     resources "/users", UsersController, only: [:create, :update, :delete, :show]
+    post "/users/sign_in", UsersController, :sign_in
     get "/users/:id/experiences", UsersController, :experiences
 
     # Experiences

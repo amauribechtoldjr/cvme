@@ -6,6 +6,8 @@ defmodule CvmeWeb.UsersController do
   alias Cvme.Experiences
   alias CvmeWeb.Auth.Guardian
 
+  alias CvmeWeb.Auth.ErrorResponse
+
   action_fallback CvmeWeb.FallbackController
 
   def create(conn, params) do
@@ -46,6 +48,16 @@ defmodule CvmeWeb.UsersController do
       conn
       |> put_status(:ok)
       |> render(:update, user: user)
+    end
+  end
+
+  def sign_in(conn, %{"email" => email, "password_hash" => password_hash}) do
+    case Guardian.authenticate(email, password_hash) do
+      {:ok, token, user} ->
+        conn
+        |> put_status(:ok)
+        |> render(:sign_in, user: user, token: token)
+      {:error, :unauthorized} -> raise ErrorResponse.Unauthorized, message: "Email or password incorrect"
     end
   end
 end
