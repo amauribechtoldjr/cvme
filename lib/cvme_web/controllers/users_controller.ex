@@ -6,8 +6,6 @@ defmodule CvmeWeb.UsersController do
   alias Cvme.Experiences
   alias CvmeWeb.Auth.Guardian
 
-  alias CvmeWeb.Auth.ErrorResponse
-
   action_fallback CvmeWeb.FallbackController
 
   def create(conn, params) do

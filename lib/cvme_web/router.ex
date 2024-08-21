@@ -5,14 +5,24 @@ defmodule CvmeWeb.Router do
     plug :accepts, ["json"]
   end
 
+  pipeline :auth do
+    plug CvmeWeb.Auth.Pipeline
+  end
+
   scope "/api", CvmeWeb do
     pipe_through :api
 
     get "/", WelcomeController, :index
 
     # Users
-    resources "/users", UsersController, only: [:create, :update, :delete, :show]
+    resources "/users", UsersController, only: [:create]
     post "/users/sign_in", UsersController, :sign_in
+  end
+
+  scope "/api", CvmeWeb do
+    pipe_through [:api, :auth]
+
+    resources "/users", UsersController, only: [:update, :delete, :show]
     get "/users/:id/experiences", UsersController, :experiences
 
     # Experiences
