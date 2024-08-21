@@ -33,25 +33,37 @@ defmodule Cvme.Experiences.Experience do
     |> validate_dates(experience)
   end
 
-  defp validate_dates(%Changeset{valid?: true, changes: %{start_date: start_date, end_date: end_date}} = changeset, _experience) do
+  defp validate_dates(
+         %Changeset{valid?: true, changes: %{start_date: start_date, end_date: end_date}} =
+           changeset,
+         _experience
+       ) do
     changeset
     |> compare_start_with_end_date(start_date, end_date)
     |> validate_date_range(start_date, :start_date)
     |> validate_date_range(end_date, :end_date)
   end
 
-  defp validate_dates(%Changeset{valid?: true, changes: %{start_date: start_date}} = changeset, %{end_date: end_date} = _experience) do
+  defp validate_dates(
+         %Changeset{valid?: true, changes: %{start_date: start_date}} = changeset,
+         %{end_date: end_date} = _experience
+       ) do
     case end_date do
-      nil -> changeset
-              |> validate_date_range(start_date, :start_date)
+      nil ->
+        changeset
+        |> validate_date_range(start_date, :start_date)
 
-      value -> changeset
-                |> compare_start_with_end_date(start_date, value)
-                |> validate_date_range(start_date, :start_date)
+      value ->
+        changeset
+        |> compare_start_with_end_date(start_date, value)
+        |> validate_date_range(start_date, :start_date)
     end
   end
 
-  defp validate_dates(%Changeset{valid?: true, changes: %{end_date: end_date}} = changeset, experience) do
+  defp validate_dates(
+         %Changeset{valid?: true, changes: %{end_date: end_date}} = changeset,
+         experience
+       ) do
     changeset
     |> compare_start_with_end_date(experience.start_date, end_date)
     |> validate_date_range(end_date, :end_date)
@@ -65,10 +77,12 @@ defmodule Cvme.Experiences.Experience do
     valid_start_date = Date.diff(start_date, end_date) <= 0
 
     case valid_start_date do
-      false -> changeset
-              |> add_error(:start_date, "Should be smaller than end_date")
+      false ->
+        changeset
+        |> add_error(:start_date, "Should be smaller than end_date")
 
-      true -> changeset
+      true ->
+        changeset
     end
   end
 
@@ -76,10 +90,12 @@ defmodule Cvme.Experiences.Experience do
     valid_date_range = Date.diff(date, Date.utc_today()) <= 0
 
     case valid_date_range do
-      false -> changeset
-              |> add_error(field, "Should be smaller or equal today")
+      false ->
+        changeset
+        |> add_error(field, "Should be smaller or equal today")
 
-      true -> changeset
+      true ->
+        changeset
     end
   end
 end

@@ -4,7 +4,7 @@ defmodule Cvme.Experiences.Delete do
 
   def call(id) do
     case Repo.get(Experience, id) do
-      nil -> {:error, :not_found, entity: :experience}
+      nil -> {:error, :not_found}
       experience -> Repo.delete(experience)
     end
   end

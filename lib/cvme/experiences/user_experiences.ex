@@ -8,11 +8,11 @@ defmodule Cvme.Experiences.UserExperiences do
   def call(id) do
     user_experiences_query =
       from e in Experience,
-      where: e.user_id == ^id,
-      select: struct(e, [:id, :user_id, :company, :description, :start_date, :end_date])
+        where: e.user_id == ^id,
+        select: struct(e, [:id, :user_id, :company, :description, :start_date, :end_date])
 
     case Repo.get(User, id) do
-      nil -> {:error, :not_found, entity: :user}
+      nil -> {:error, :not_found}
       _user -> {:ok, experiences: Repo.all(user_experiences_query)}
     end
   end

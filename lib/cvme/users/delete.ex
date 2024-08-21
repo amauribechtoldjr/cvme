@@ -4,7 +4,7 @@ defmodule Cvme.Users.Delete do
 
   def call(id) do
     case Repo.get(User, id) do
-      nil -> {:error, :not_found, entity: :user}
+      nil -> {:error, :not_found}
       user -> Repo.delete(user)
     end
   end

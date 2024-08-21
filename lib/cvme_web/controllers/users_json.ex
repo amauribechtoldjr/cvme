@@ -1,16 +1,16 @@
 defmodule CvmeWeb.UsersJSON do
-  def create(%{user: user, token: token}), do: %{message: "User created with success.", data: render(user, token)}
+  def create(%{user: user, token: token}), do: %{data: render(user, token)}
   def get(%{user: user}), do: %{data: render(user)}
-  def delete(%{user: user}), do: %{message: "User deleted with success.", data: render(user)}
-  def update(%{user: user}), do: %{message: "User updated with success.", data: render(user)}
+  def delete(%{user: user}), do: %{data: render(user)}
+  def update(%{user: user}), do: %{data: render(user)}
   def user_experiences(%{experiences: experiences}), do: %{data: experiences}
-  def sign_in(%{user: user, token: token}), do: %{message: "User successfully authenticated", data: render(user, token)}
+  def sign_in(%{token: token}), do: %{data: %{token: token}}
 
   defp render(user) do
     %{
       id: user.id,
       email: user.email,
-      password_hash: user.password_hash,
+      password_hash: user.password_hash
     }
   end
 

@@ -52,12 +52,10 @@ defmodule CvmeWeb.UsersController do
   end
 
   def sign_in(conn, %{"email" => email, "password_hash" => password_hash}) do
-    case Guardian.authenticate(email, password_hash) do
-      {:ok, token, user} ->
-        conn
-        |> put_status(:ok)
-        |> render(:sign_in, user: user, token: token)
-      {:error, :unauthorized} -> raise ErrorResponse.Unauthorized, message: "Email or password incorrect"
+    with {:ok, token} <- Guardian.authenticate(email, password_hash) do
+      conn
+      |> put_status(:ok)
+      |> render(:sign_in, token: token)
     end
   end
 end

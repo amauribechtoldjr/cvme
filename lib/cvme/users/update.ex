@@ -4,7 +4,7 @@ defmodule Cvme.Users.Update do
 
   def call(%{"id" => id} = params) do
     case Repo.get(User, id) do
-      nil -> {:error, :not_found, entity: :user}
+      nil -> {:error, :not_found}
       user -> update(user, params)
     end
   end

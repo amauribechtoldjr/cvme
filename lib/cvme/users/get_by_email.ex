@@ -5,7 +5,7 @@ defmodule Cvme.Users.GetByEmail do
   def call(email) do
     case Repo.get_by(User, email: email) do
       %User{} = user -> {:ok, user}
-      nil -> {:error, :not_found, entity: :user}
+      nil -> {:error, :not_found}
     end
   end
 end

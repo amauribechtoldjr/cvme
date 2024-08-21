@@ -22,12 +22,15 @@ defmodule CvmeWeb.Auth.Guardian do
     {:error, :no_id_provided}
   end
 
-
   def authenticate(email, password) do
-    case Users.verify_pwd(%{"email" => email, "password" => password}) do
-      {:error, :unauthorized, message: message} -> {:error, :unauthorized, message: message}
+    case verify_pwd(email, password) do
       {:ok, user} -> create_token(user)
+      error -> error
     end
+  end
+
+  defp verify_pwd(email, pwd) do
+    Users.verify_pwd(%{"email" => email, "password" => pwd})
   end
 
   def validate_pwd(pwd, pwd_hash) do
@@ -35,7 +38,9 @@ defmodule CvmeWeb.Auth.Guardian do
   end
 
   defp create_token(user) do
-    {:ok, token, _claims} = encode_and_sign(user)
-    {:ok, token, user}
+    case encode_and_sign(user) do
+      {:ok, token, _claims} -> {:ok, token}
+      {:error, _} -> {:error, :unauthorized}
+    end
   end
 end

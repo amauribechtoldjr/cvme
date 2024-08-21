@@ -33,7 +33,7 @@ defmodule Cvme.MixProject do
   # Specifies your project dependencies.
   #
   # Type `mix help deps` for examples and options.
-  #TODO: install ex-machina
+  # TODO: install ex-machina
   defp deps do
     [
       {:phoenix, "~> 1.7.14"},

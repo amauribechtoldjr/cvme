@@ -4,7 +4,7 @@ defmodule Cvme.Experiences.Update do
 
   def call(%{"id" => id} = params) do
     case Repo.get(Experience, id) do
-      nil -> {:error, :not_found, entity: :experience}
+      nil -> {:error, :not_found}
       experience -> update(experience, params)
     end
   end

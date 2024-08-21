@@ -21,17 +21,17 @@ defmodule CvmeWeb.UsersControllerTest do
         |> json_response(:created)
 
       assert %{
-        "data" => %{
-          "email" => "usertest@cvme.com",
-          "id" => _id
-        },
-        "message" => "User created with success."
-      } = response
+               "data" => %{
+                 "email" => "usertest@cvme.com",
+                 "id" => _id
+               },
+               "message" => "User created with success."
+             } = response
     end
 
     test "should not create user with invalid params", %{conn: conn} do
       params = %{
-        email: "usertest@cvme.com",
+        email: "usertest@cvme.com"
       }
 
       response =
@@ -40,10 +40,10 @@ defmodule CvmeWeb.UsersControllerTest do
         |> json_response(:bad_request)
 
       assert %{
-        "errors" => %{
-          "password" => _pass,
-        },
-      } = response
+               "errors" => %{
+                 "password" => _pass
+               }
+             } = response
     end
   end
 
@@ -57,12 +57,12 @@ defmodule CvmeWeb.UsersControllerTest do
         |> json_response(:ok)
 
       assert %{
-        "data" => %{
-          "email" => "usertest@cvme.com",
-          "id" => ^id,
-        },
-        "message" => "User deleted with success."
-      } = response
+               "data" => %{
+                 "email" => "usertest@cvme.com",
+                 "id" => ^id
+               },
+               "message" => "User deleted with success."
+             } = response
     end
   end
 end

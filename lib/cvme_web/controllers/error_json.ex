@@ -3,25 +3,15 @@ defmodule CvmeWeb.ErrorJSON do
     %{errors: %{detail: Phoenix.Controller.status_message_from_template(template)}}
   end
 
-  def error(%{status: :not_found, entity: entity}) do
+  def error(%{status: :not_found}) do
     %{
-      status: :not_found,
-      message:
-        "#{entity} not found"
-        |> String.capitalize()
+      status: :not_found
     }
   end
 
   def error(%{status: :unauthorized}) do
     %{
-      status: :unauthorized,
-    }
-  end
-
-  def error(%{status: :unauthorized, message: message}) do
-    %{
-      status: :unauthorized,
-      message: message
+      status: :unauthorized
     }
   end
 

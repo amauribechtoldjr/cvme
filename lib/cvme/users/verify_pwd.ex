@@ -1,19 +1,24 @@
 defmodule Cvme.Users.VerifyPwd do
   alias Cvme.Users
-  alias Users.User
-  alias Cvme.Repo
 
   def call(%{"email" => email, "password" => password}) do
-    case Repo.get_by(User, email: email) do
-      %User{} = user -> verify_password(user, password)
-      nil -> {:error, :not_found, entity: :user}
+    with {:ok, user} <- get_by_email(email),
+         {:ok, :authorized} <- verify_pass(password, user.password_hash) do
+      {:ok, user}
     end
   end
 
-  defp verify_password(user, password) do
-    case Argon2.verify_pass(password, user.password_hash) do
-      true -> {:ok, user}
-      false -> {:error, :unauthorized, message: "Invalid authentication data"}
+  def get_by_email(email) do
+    case Users.get_by_email(email) do
+      {:error, :not_found} -> {:error, :unauthorized}
+      result -> result
+    end
+  end
+
+  def verify_pass(pwd, pwd_hash) do
+    case Argon2.verify_pass(pwd, pwd_hash) do
+      true -> {:ok, :authorized}
+      _ -> {:error, :unauthorized}
     end
   end
 end

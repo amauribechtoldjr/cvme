@@ -1,25 +1,12 @@
 defmodule CvmeWeb.FallbackController do
   use CvmeWeb, :controller
 
-  def call(conn, {:error, :not_found, entity: entity}) do
+  def call(conn, {:error, status_name})
+      when status_name in [:not_found, :bad_request, :unauthorized] do
     conn
-    |> put_status(:not_found)
+    |> put_status(status_name)
     |> put_view(json: CvmeWeb.ErrorJSON)
-    |> render(:error, status: :not_found, entity: entity)
-  end
-
-  def call(conn, {:error, :bad_request}) do
-    conn
-    |> put_status(:bad_request)
-    |> put_view(json: CvmeWeb.ErrorJSON)
-    |> render(:error, status: :bad_request)
-  end
-
-  def call(conn, {:error, :unauthorized, message: message}) do
-    conn
-    |> put_status(:unauthorized)
-    |> put_view(json: CvmeWeb.ErrorJSON)
-    |> render(:error, status: :unauthorized, message: message)
+    |> render(:error, status: status_name)
   end
 
   def call(conn, {:error, changeset}) do
