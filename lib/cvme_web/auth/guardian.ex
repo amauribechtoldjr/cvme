@@ -39,7 +39,7 @@ defmodule CvmeWeb.Auth.Guardian do
 
   defp create_token(user) do
     case encode_and_sign(user) do
-      {:ok, token, _claims} -> {:ok, token}
+      {:ok, token, _claims} -> {:ok, token, user}
       {:error, _} -> {:error, :unauthorized}
     end
   end

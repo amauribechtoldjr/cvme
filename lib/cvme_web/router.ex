@@ -3,10 +3,12 @@ defmodule CvmeWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug :fetch_session
   end
 
   pipeline :auth do
     plug CvmeWeb.Auth.Pipeline
+    plug CvmeWeb.Auth.SetUser
   end
 
   scope "/api", CvmeWeb do

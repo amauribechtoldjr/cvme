@@ -34,10 +34,11 @@ defmodule CvmeWeb.UsersController do
   end
 
   def show(conn, %{"id" => id}) do
+    IO.inspect(conn.assigns.user)
     with {:ok, %User{} = user} <- Users.get(id) do
       conn
       |> put_status(:ok)
-      |> render(:get, user: user)
+      |> render(:get, user: conn.assigns.user)
     end
   end
 
@@ -50,8 +51,9 @@ defmodule CvmeWeb.UsersController do
   end
 
   def sign_in(conn, %{"email" => email, "password_hash" => password_hash}) do
-    with {:ok, token} <- Guardian.authenticate(email, password_hash) do
+    with {:ok, token, user} <- Guardian.authenticate(email, password_hash) do
       conn
+      |> Plug.Conn.put_session(:user_id, user.id)
       |> put_status(:ok)
       |> render(:sign_in, token: token)
     end
