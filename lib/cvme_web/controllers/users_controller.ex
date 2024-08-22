@@ -13,15 +13,24 @@ defmodule CvmeWeb.UsersController do
   defp is_authorized(conn, _) do
     %{params: %{"id" => user_id}} = conn
 
-    {:ok, user} = Users.get(user_id)
+    case Users.get(user_id) do
+      {:ok, user} ->
+        if conn.assigns.user.id == user.id do
+          conn
+        else
+          conn
+          |> put_status(:forbidden)
+          |> put_view(json: CvmeWeb.ErrorJSON)
+          |> render(:error, status: :forbidden)
+          |> halt()
+        end
 
-    if conn.assigns.user.id == user.id do
-      conn
-    else
-      conn
-      |> put_status(:forbidden)
-      |> put_view(json: CvmeWeb.ErrorJSON)
-      |> render(:error, status: :forbidden)
+      {:error, :not_found} ->
+        conn
+        |> put_status(:forbidden)
+        |> put_view(json: CvmeWeb.ErrorJSON)
+        |> render(:error, status: :forbidden)
+        |> halt()
     end
   end
 
