@@ -16,7 +16,15 @@ defmodule CvmeWeb.ErrorJSON do
   end
 
   def error(%{status: :bad_request}) do
-    %{status: :bad_request}
+    %{
+      status: :bad_request
+    }
+  end
+
+  def error(%{status: :forbidden}) do
+    %{
+      status: :forbidden
+    }
   end
 
   def error(%{changeset: changeset}) do

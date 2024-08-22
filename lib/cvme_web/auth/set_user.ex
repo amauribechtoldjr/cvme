@@ -4,11 +4,10 @@ defmodule CvmeWeb.Auth.SetUser do
   alias Cvme.Users
 
   def init(_options) do
-
   end
 
   def call(conn, _options) do
-    if (conn.assigns[:user]) do
+    if conn.assigns[:user] do
       conn
     else
       user_id = get_session(conn, :user_id)

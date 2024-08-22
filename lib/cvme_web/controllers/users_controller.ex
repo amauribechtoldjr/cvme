@@ -6,7 +6,24 @@ defmodule CvmeWeb.UsersController do
   alias Cvme.Experiences
   alias CvmeWeb.Auth.Guardian
 
+  plug :is_authorized when action in [:update, :delete, :show, :experiences]
+
   action_fallback CvmeWeb.FallbackController
+
+  defp is_authorized(conn, _) do
+    %{params: %{"id" => user_id}} = conn
+
+    {:ok, user} = Users.get(user_id)
+
+    if conn.assigns.user.id == user.id do
+      conn
+    else
+      conn
+      |> put_status(:forbidden)
+      |> put_view(json: CvmeWeb.ErrorJSON)
+      |> render(:error, status: :forbidden)
+    end
+  end
 
   def create(conn, params) do
     with {:ok, %User{} = user} <- Users.create(params),
@@ -34,11 +51,10 @@ defmodule CvmeWeb.UsersController do
   end
 
   def show(conn, %{"id" => id}) do
-    IO.inspect(conn.assigns.user)
     with {:ok, %User{} = user} <- Users.get(id) do
       conn
       |> put_status(:ok)
-      |> render(:get, user: conn.assigns.user)
+      |> render(:get, user: user)
     end
   end
 
