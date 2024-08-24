@@ -12,17 +12,21 @@ defmodule CvmeWeb.Auth.SetUser do
     else
       user_id = get_session(conn, :user_id)
 
-      if user_id == nil, do: {:error, :unauthorized}
+      if user_id == nil do
+        conn
+        |> put_status(:unauthorized)
+      else
+        case Users.get(user_id) do
+          {:ok, user} ->
+            cond do
+              user_id && user -> assign(conn, :user, user)
+              true -> assign(conn, :user, nil)
+            end
 
-      case Users.get(user_id) do
-        {:ok, user} ->
-          cond do
-            user_id && user -> assign(conn, :user, user)
-            true -> assign(conn, :user, nil)
-          end
-
-        {:error, _} ->
-          {:error, :not_found}
+          {:error, _} ->
+            conn
+            |> put_status(:unauthorized)
+        end
       end
     end
   end

@@ -5,4 +5,5 @@ defmodule CvmeWeb.UsersJSON do
   def update(%{user: user}), do: %{data: user}
   def user_experiences(%{experiences: experiences}), do: %{data: experiences}
   def sign_in(%{token: token}), do: %{data: %{token: token}}
+  def sign_out(%{}), do: %{data: %{}}
 end

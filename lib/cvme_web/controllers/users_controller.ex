@@ -15,7 +15,7 @@ defmodule CvmeWeb.UsersController do
 
     case Users.get(user_id) do
       {:ok, user} ->
-        if conn.assigns.user.id == user.id do
+        if conn.assigns[:user] && conn.assigns.user.id == user.id do
           conn
         else
           conn
@@ -25,7 +25,7 @@ defmodule CvmeWeb.UsersController do
           |> halt()
         end
 
-      {:error, :not_found} ->
+      {:error, _} ->
         conn
         |> put_status(:forbidden)
         |> put_view(json: CvmeWeb.ErrorJSON)
@@ -82,5 +82,12 @@ defmodule CvmeWeb.UsersController do
       |> put_status(:ok)
       |> render(:sign_in, token: token)
     end
+  end
+
+  def sign_out(conn, _) do
+    conn
+    |> Plug.Conn.clear_session()
+    |> put_status(:ok)
+    |> render(:sign_out)
   end
 end

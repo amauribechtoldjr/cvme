@@ -26,6 +26,7 @@ defmodule CvmeWeb.Router do
 
     resources "/users", UsersController, only: [:update, :delete, :show]
     get "/users/:id/experiences", UsersController, :experiences
+    post "/users/sign_out", UsersController, :sign_out
 
     # Experiences
     resources "/experiences", ExperiencesController, only: [:create, :update, :delete]

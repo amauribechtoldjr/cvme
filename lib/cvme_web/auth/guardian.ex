@@ -13,8 +13,8 @@ defmodule CvmeWeb.Auth.Guardian do
 
   def resource_from_claims(%{"sub" => id}) do
     case Users.get(id) do
-      nil -> {:error, :not_found}
-      user -> {:ok, user}
+      {:error, :not_found} -> {:error, :not_found}
+      {:ok, user} -> {:ok, user}
     end
   end
 
