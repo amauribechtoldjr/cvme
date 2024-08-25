@@ -6,30 +6,18 @@ defmodule CvmeWeb.Router do
     plug :fetch_session
   end
 
-  pipeline :auth do
-    plug CvmeWeb.Auth.Pipeline
-    plug CvmeWeb.Auth.SetUser
-  end
-
   scope "/api", CvmeWeb do
     pipe_through :api
 
     get "/", WelcomeController, :index
 
-    # Users
-    resources "/users", UsersController, only: [:create]
-    post "/users/sign_in", UsersController, :sign_in
-  end
+    resources "/users", UsersController, only: [:create, :update, :delete, :show]
 
-  scope "/api", CvmeWeb do
-    pipe_through [:api, :auth]
-
-    resources "/users", UsersController, only: [:update, :delete, :show]
     get "/users/:id/experiences", UsersController, :experiences
-    post "/users/sign_out", UsersController, :sign_out
+    post "/users/:id/experiences", ExperiencesController, :create
+    delete "/users/:id/experiences", ExperiencesController, :delete
+    put "/users/:id/experiences", ExperiencesController, :update
 
-    # Experiences
-    resources "/experiences", ExperiencesController, only: [:create, :update, :delete]
   end
 
   # Enable LiveDashboard in development

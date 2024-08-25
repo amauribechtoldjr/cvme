@@ -31,10 +31,6 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:request_id]
 
-config :cvme, CvmeWeb.Auth.Guardian,
-  issuer: "cvme",
-  secret_key: "O7LL9GNRoBVZNu4FZI96TbAJjXWGaitdMXnCa7UBsqwPVfy5U55RNu5qstG1KP5Q"
-
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
 
