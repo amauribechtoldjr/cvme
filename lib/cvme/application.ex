@@ -5,8 +5,25 @@ defmodule Cvme.Application do
 
   use Application
 
+  alias Vapor.Provider.{Dotenv, Env}
+
   @impl true
   def start(_type, _args) do
+    providers = [
+      %Dotenv{},
+      %Env{bindings: [
+        port: "PORT",
+
+        cognito_domain: "COGNITO_DOMAIN",
+        cognito_client_id: "COGNITO_CLIENT_ID",
+        cognito_client_secret: "COGNITO_CLIENT_SECRET",
+        cognito_user_pool_id: "COGNITO_USER_POOL_ID",
+        cognito_aws_region: "COGNITO_AWS_REGION"
+      ]},
+    ]
+
+    config = Vapor.load!(providers)
+
     children = [
       CvmeWeb.Telemetry,
       Cvme.Repo,

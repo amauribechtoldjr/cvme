@@ -6,13 +6,19 @@ defmodule CvmeWeb.Router do
     plug :fetch_session
   end
 
+  scope "/auth", CvmeWeb do
+    pipe_through :api
+
+    get "/:provider", AuthController, :request
+    get "/:provider/callback", AuthController, :callback
+  end
+
   scope "/api", CvmeWeb do
     pipe_through :api
 
     get "/", WelcomeController, :index
 
     resources "/users", UsersController, only: [:create, :update, :delete, :show]
-
     get "/users/:id/experiences", UsersController, :experiences
 
     resources "/experiences", ExperiencesController, only: [:create, :delete, :update]

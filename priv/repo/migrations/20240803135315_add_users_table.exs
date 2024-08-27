@@ -6,7 +6,7 @@ defmodule Cvme.Repo.Migrations.AddUsersTable do
 
   def change do
     create table(:users) do
-      add :password_hash, :string, null: false
+      add :name, :string, null: false
       add :email, :string, null: false
 
       timestamps()
