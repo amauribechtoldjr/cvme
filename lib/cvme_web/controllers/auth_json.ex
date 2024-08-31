@@ -1,5 +1,5 @@
 defmodule CvmeWeb.AuthJSON do
-  def ok(%{callback_url: callback_url}) do
-    %{data: callback_url}
+  def sign_in(%{user: user}) do
+    %{data: user}
   end
 end

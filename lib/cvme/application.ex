@@ -22,7 +22,7 @@ defmodule Cvme.Application do
       ]},
     ]
 
-    config = Vapor.load!(providers)
+    Vapor.load!(providers)
 
     children = [
       CvmeWeb.Telemetry,
