@@ -1,6 +1,4 @@
 defmodule CvmeWeb.Plugs.AuthPlug do
-  @behaviour Plug
-
   import Plug.Conn
 
   alias Cvme.Users
@@ -13,11 +11,12 @@ defmodule CvmeWeb.Plugs.AuthPlug do
 
     if user do
       assign(conn, :current_user, user)
+      conn
     else
       conn
       |> put_status(:unauthorized)
-      |> send_resp(:unauthorized, "")
-      |> halt()
+      |> Phoenix.Controller.put_view(json: CvmeWeb.ErrorJSON)
+      |> Phoenix.Controller.render(:error, status: :unauthorized)
     end
   end
 
