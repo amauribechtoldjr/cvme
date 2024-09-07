@@ -5,7 +5,11 @@ defmodule Cvme.Users.Delete do
   def call(id) do
     case Repo.get(User, id) do
       nil -> {:error, :not_found}
-      user -> Repo.delete(user)
+      user ->
+        user
+        |> Ecto.Changeset.change
+        |> Ecto.Changeset.no_assoc_constraint(:experiences)
+        |> Repo.delete()
     end
   end
 end

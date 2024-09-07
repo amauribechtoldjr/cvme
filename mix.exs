@@ -44,9 +44,8 @@ defmodule Cvme.MixProject do
       {:bandit, "~> 1.5"},
       {:argon2_elixir, "~> 4.0"},
       {:ecto_commons, "~> 0.3.4"},
-      {:ueberauth, "~> 0.10"},
-      {:ueberauth_cognito, "~> 0.4"},
-      {:vapor, "~> 0.10"}
+      {:vapor, "~> 0.10"},
+      {:cors_plug, "~> 3.0"}
     ]
   end
 

@@ -4,18 +4,18 @@ defmodule Cvme.Users.User do
   import EctoCommons.EmailValidator
   import Ecto.Changeset
 
+  alias Ecto.Changeset
   alias Cvme.Experiences.Experience
 
-  @cast_params [:name, :email]
-  @update_params [:email]
+  @cast_params [:password, :name, :email]
+  @update_params [:email, :name]
 
-  @derive {
-    Jason.Encoder,
-    except: [:__meta__,  :experiences]
-  }
+  @derive {Jason.Encoder, except: [:__meta__, :experiences, :password, :password_hash]}
   schema "users" do
-    field :name, :string
+    field :password, :string, virtual: true
+    field :password_hash, :string
     field :email, :string
+    field :name, :string
     has_many :experiences, Experience
 
     timestamps()
@@ -26,6 +26,7 @@ defmodule Cvme.Users.User do
     |> cast(params, @cast_params)
     |> validate_required(@cast_params)
     |> do_validations()
+    |> add_password_hash()
   end
 
   def changeset(user, params) do
@@ -33,11 +34,19 @@ defmodule Cvme.Users.User do
     |> cast(params, @cast_params)
     |> validate_required(@update_params)
     |> do_validations()
+    |> add_password_hash()
   end
 
   def do_validations(changeset) do
     changeset
+
     |> unique_constraint(:email)
     |> validate_email(:email)
   end
+
+  defp add_password_hash(%Changeset{valid?: true, changes: %{password: password}} = changeset) do
+    change(changeset, password_hash: Argon2.hash_pwd_salt(password))
+  end
+
+  defp add_password_hash(changeset), do: changeset
 end

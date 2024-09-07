@@ -15,18 +15,6 @@ config :cvme,
   ecto_repos: [Cvme.Repo],
   generators: [timestamp_type: :utc_datetime]
 
-config :ueberauth, Ueberauth,
-  providers: [
-    cognito: {Ueberauth.Strategy.Cognito, []}
-  ]
-
-config :ueberauth, Ueberauth.Strategy.Cognito,
-  auth_domain: {System, :get_env, ["COGNITO_DOMAIN"]},
-  client_id: {System, :get_env, ["COGNITO_CLIENT_ID"]},
-  client_secret: {System, :get_env, ["COGNITO_CLIENT_SECRET"]},
-  user_pool_id: {System, :get_env, ["COGNITO_USER_POOL_ID"]},
-  aws_region: {System, :get_env, ["COGNITO_AWS_REGION"]}
-
 # Configures the endpoint
 config :cvme, CvmeWeb.Endpoint,
   url: [host: "localhost"],

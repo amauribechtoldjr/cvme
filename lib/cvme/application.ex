@@ -13,12 +13,6 @@ defmodule Cvme.Application do
       %Dotenv{},
       %Env{bindings: [
         port: "PORT",
-
-        cognito_domain: "COGNITO_DOMAIN",
-        cognito_client_id: "COGNITO_CLIENT_ID",
-        cognito_client_secret: "COGNITO_CLIENT_SECRET",
-        cognito_user_pool_id: "COGNITO_USER_POOL_ID",
-        cognito_aws_region: "COGNITO_AWS_REGION"
       ]},
     ]
 
