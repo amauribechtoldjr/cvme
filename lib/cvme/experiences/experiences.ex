@@ -1,4 +1,4 @@
-defmodule Cvme.Experiences.UserExperiences do
+defmodule Cvme.Experiences.Experiences do
   import Ecto.Query
 
   alias Cvme.Experiences.Experience

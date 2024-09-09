@@ -6,6 +6,14 @@ defmodule CvmeWeb.ExperiencesController do
 
   action_fallback CvmeWeb.FallbackController
 
+  def index(conn, %{"user_id" => user_id}) do
+    with {:ok, experiences: experiences} <- Experiences.index(user_id) do
+      conn
+      |> put_status(:ok)
+      |> render(:experiences, experiences: experiences)
+    end
+  end
+
   def create(conn, params) do
     with {:ok, %Experience{} = experience} <- Experiences.create(params) do
       conn

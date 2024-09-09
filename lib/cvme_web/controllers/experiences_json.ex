@@ -1,4 +1,6 @@
 defmodule CvmeWeb.ExperiencesJSON do
+  def experiences(%{experiences: experiences}), do: %{data: experiences}
+
   def create(%{experience: experience}),
     do: %{data: experience}
 
