@@ -3,7 +3,10 @@ defmodule CvmeWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
-    plug :fetch_session
+  end
+
+  pipeline :auth do
+    plug CvmeWeb.Plugs.Auth
   end
 
   scope "/api", CvmeWeb do
@@ -11,8 +14,13 @@ defmodule CvmeWeb.Router do
 
     get "/", WelcomeController, :index
 
-    resources "/users", UsersController, only: [:create, :update, :delete, :show]
+    resources "/users", UsersController, only: [:create]
     post "/login", UsersController, :login
+  end
+
+  scope "/api", CvmeWeb do
+    pipe_through [:api, :auth]
+
     resources "/users/:user_id/experiences", ExperiencesController, only: [:index, :create, :delete, :update]
   end
 

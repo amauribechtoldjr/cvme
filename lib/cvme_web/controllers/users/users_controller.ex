@@ -24,9 +24,7 @@ defmodule CvmeWeb.UsersController do
   end
 
   def login(conn, params) do
-    IO.inspect(params)
     with {:ok, user} <- Users.login(params) do
-      IO.inspect(params)
       token = Token.sign(user)
 
       conn
